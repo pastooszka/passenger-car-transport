@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+<link rel="stylesheet" href="../../static/css/stylesheet.css">
+<head>
+    <title>Mar-Trans</title>
+</head>
+<header>
+    <h1>Mar-Trans</h1>
+    <!--    <img src="images/logo.png" alt="ABC logo">-->
+</header>
+<nav>
+    <ul>
+        <li><a th:href="@{/index}">Strona główna</a></li>
+        <li><a th:href="@{/vehicles}">Auta</a></li>
+        <li><a th:href="@{/clients}" class="active">Klienci</a></li>
+        <li><a th:href="@{/trips}">Wyjazdy</a></li>
+    </ul>
+</nav>
+<body>
+<main>
+    <h2>Formularz edycji klienta</h2>
+    <form th:if="${showPerson}" th:action="@{/updatePerson/{id}(id=${person.id})}" th:object="${person}" class="form"
+          method="POST">
+        <label for="name">Imie</label>
+        <input type="text" th:field="*{name}" id="name" placeholder="">
+        <span th:if="${#fields.hasErrors('name')}">*Pole nie może być puste!</span>
+        <br th:if="!${#fields.hasErrors('name')}">
+
+        <label for="surname">Nazwisko</label>
+        <input type="text" th:field="*{surname}" id="surname" placeholder="">
+        <span th:if="${#fields.hasErrors('surname')}">*Pole nie może być puste!</span>
+        <br th:if="!${#fields.hasErrors('surname')}">
+
+        <label for="nrTel">Numer telefonu</label>
+        <input type="number" th:field="*{nrTel}" id="nrTel" placeholder="">
+        <span th:if="${#fields.hasErrors('nrTel')}">*Numer musi posiadać 9 cyfr!</span>
+        <br th:if="!${#fields.hasErrors('nrTel')}">
+
+        <label for="email">Adres e-mail</label>
+        <input type="text" th:field="*{email}" id="email" placeholder="">
+        <span th:if="${#fields.hasErrors('email')}">*Pole nie może być puste!</span>
+        <br th:if="!${#fields.hasErrors('email')}">
+
+        <label></label>
+        <input type="submit" value="Przejdź dalej" class="button-green">
+        <a th:href="@{/clients/persondetails/{id}(id=${person.id})}">Anuluj</a>
+    </form>
+
+    <form th:if="${showCompany}" th:action="@{/updateCompany/{id}(id=${company.id})}" th:object="${company}" class="form"
+          method="POST">
+        <label for="companyName">Nazwa</label>
+        <input type="text" th:field="*{name}" id="companyName" placeholder="">
+        <span th:if="${#fields.hasErrors('name')}">*Pole nie może być puste!</span>
+        <br th:if="!${#fields.hasErrors('name')}">
+
+        <label for="nip">Nip</label>
+        <input type="number" th:field="*{nip}" id="nip" placeholder="">
+        <span th:if="${#fields.hasErrors('nip')}">*Numer musi posiadać 9 cyfr!</span>
+        <br th:if="!${#fields.hasErrors('nip')}">
+
+        <label for="firmaNrTel">Numer telefonu</label>
+        <input type="number" th:field="*{nrTel}" id="firmaNrTel" placeholder="">
+        <span th:if="${#fields.hasErrors('nrTel')}">*Numer musi posiadać 9 cyfr!</span>
+        <br th:if="!${#fields.hasErrors('nrTel')}">
+
+        <label for="firmaEmail">Adres e-mail</label>
+        <input type="text" th:field="*{email}" id="firmaEmail" placeholder="">
+        <span th:if="${#fields.hasErrors('email')}">*Pole nie może być puste!</span>
+        <br th:if="!${#fields.hasErrors('email')}">
+
+        <label></label>
+        <input type="submit" value="Zapisz" class="button-green">
+        <a th:href="@{/clients/companydetails/{id}(id=${company.id})}" class="button-gray">Anuluj</a>
+    </form>
+</main>
+</body>
+
+</html>

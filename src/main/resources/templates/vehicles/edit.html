@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+<link rel="stylesheet" href="../../static/css/stylesheet.css">
+<head>
+  <title>Mar-Trans</title>
+</head>
+<header>
+  <h1>Mar-Trans</h1>
+  <!--    <img src="images/logo.png" alt="ABC logo">-->
+</header>
+<nav>
+  <ul>
+    <li><a th:href="@{/index}" >Strona główna</a></li>
+    <li><a th:href="@{/vehicles}" class="active">Auta</a></li>
+    <li><a th:href="@{/clients}">Klienci</a></li>
+    <li><a th:href="@{/trips}">Wyjazdy</a></li>
+  </ul>
+</nav>
+<body>
+<main>
+  <h2>Formularz edycji pojazdu</h2>
+  <form th:action="@{/updateVehicle/{id}(id=${vehicle.id})}" th:object="${vehicle}" class="form" method="POST">
+    <label for="brand">Marka</label>
+    <input type="text" th:field="*{brand}" id="brand" >
+    <span th:if="${#fields.hasErrors('brand')}">*Pole nie może być puste!</span>
+    <br th:if="!${#fields.hasErrors('brand')}">
+
+    <label for="model">Model</label>
+    <input type="text" th:field="*{model}" id="model">
+    <span th:if="${#fields.hasErrors('model')}">*Pole nie może być puste!</span>
+    <br th:if="!${#fields.hasErrors('model')}">
+
+    <label for="regNumber">Numer rejestracyjny</label>
+    <input type="text" th:field="*{regNumber}" id="regNumber" >
+    <span th:if="${#fields.hasErrors('regNumber')}">*Pole nie może być puste!</span>
+    <br th:if="!${#fields.hasErrors('regNumber')}">
+
+    <label for="numberOfSeats">Ilość miejsc</label>
+    <input  type="number" th:field="*{numberOfSeats}" id="numberOfSeats" >
+    <span th:if="${#fields.hasErrors('numberOfSeats')}">*Podaj liczbe od 1 do 99!</span>
+    <br th:if="!${#fields.hasErrors('numberOfSeats')}">
+
+    <label></label>
+    <input type="submit" value="Przejdź dalej" class="button-green">
+    <a th:href="@{/vehicles/details/{id}(id=${vehicle.id})}" class="button-gray">Anuluj</a>
+  </form>
+</main>
+</body>
+</html>

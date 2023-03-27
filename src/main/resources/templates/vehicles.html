@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+<link rel="stylesheet" href="../static/css/stylesheet.css">
+<head>
+    <title>Mar-Trans</title>
+</head>
+<header>
+    <h1>Mar-Trans</h1>
+    <!--    <img src="images/logo.png" alt="ABC logo">-->
+</header>
+<nav>
+    <ul>
+        <li><a th:href="index" >Strona główna</a></li>
+        <li><a th:href="vehicles" th:class="active">Auta</a></li>
+        <li><a th:href="clients">Klienci</a></li>
+        <li><a th:href="trips">Wyjazdy</a></li>
+    </ul>
+</nav>
+<body>
+<main>
+    <h2>Auta</h2>
+    <h2><a th:href="@{/vehicles/add}" class="button-green">Dodaj pojazd</a></h2>
+    <table class="table-list">
+        <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Numer rejestracyjny</th>
+            <th>ilosc miejsc</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="vehicle : ${vehicles}">
+            <td th:text="${vehicle.brand}"></td>
+            <td th:text="${vehicle.model}"></td>
+            <td th:text="${vehicle.getRegNumber}"></td>
+            <td th:text="${vehicle.getNumberOfSeats}"></td>
+            <td>
+                <a th:href="@{/vehicles/details/{id}(id=${vehicle.id})}" class="button-gray-list">Szczegóły</a>
+                <a th:href="@{/vehicles/delete/{id}(id=${vehicle.id})}" class="button-gray-list">Usuń</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

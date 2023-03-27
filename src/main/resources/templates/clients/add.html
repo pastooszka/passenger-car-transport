@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+<link rel="stylesheet" href="../../static/css/stylesheet.css">
+<head>
+    <title>Mar-Trans</title>
+</head>
+<header>
+    <h1>Mar-Trans</h1>
+    <!--    <img src="images/logo.png" alt="ABC logo">-->
+</header>
+<nav>
+    <ul>
+        <li><a th:href="@{/index}">Strona główna</a></li>
+        <li><a th:href="@{/vehicles}">Auta</a></li>
+        <li><a th:href="@{/clients}" class="active">Klienci</a></li>
+        <li><a th:href="@{/trips}">Wyjazdy</a></li>
+    </ul>
+</nav>
+<body>
+<main>
+    <h2>Formularz nowego Klienta</h2>
+    <form class="form">
+        <label for="type">Rodzaj klienta: </label>
+        <select th:field="*{types}" id="type" >
+            <option th:each="type : *{types}"
+                    th:value="${type}"
+                    th:text="${type}">
+        </select>
+    </form>
+    <br>
+
+    <form th:action="@{/addPerson}" th:object="${person}" id="osobaForm" class="form" method="POST">
+        <label for="personName">Imie</label>
+        <input type="text" th:field="*{name}" id="personName" placeholder="">
+        <span th:if="${#fields.hasErrors('name')}">*Pole nie może być puste!</span>
+        <br th:if="!${#fields.hasErrors('name')}">
+
+        <label for="surname">Nazwisko</label>
+        <input type="text" th:field="*{surname}" id="surname" placeholder="">
+        <span th:if="${#fields.hasErrors('surname')}">*Pole nie może być puste!</span>
+        <br th:if="!${#fields.hasErrors('surname')}">
+
+        <label for="nrTel">Numer telefonu</label>
+        <input type="number" th:field="*{nrTel}" id="nrTel" placeholder="">
+        <span th:if="${#fields.hasErrors('nrTel')}">*Numer musi posiadać 9 cyfr!</span>
+        <br th:if="!${#fields.hasErrors('nrTel')}">
+
+        <label for="email">Adres e-mail</label>
+        <input type="text" th:field="*{email}" id="email" placeholder="">
+        <span th:if="${#fields.hasErrors('email')}">*Pole nie może być puste!</span>
+        <br th:if="!${#fields.hasErrors('email')}">
+
+        <label></label>
+        <input type="submit" value="Zapisz" class="button-green">
+        <a th:href="@{/clients}" class="button-gray">Anuluj</a>
+    </form>
+
+    <form th:action="@{/addCompany}" th:object="${company}" id="firmaForm" style="display:none;" class="form" method="POST" >
+        <label for="name">Nazwa</label>
+        <input type="text" th:field="*{name}" id="name" placeholder="">
+        <span th:if="${#fields.hasErrors('name')}">*Pole nie może być puste!</span>
+        <br th:if="!${#fields.hasErrors('name')}">
+
+        <label for="nip">Nip</label>
+        <input type="number" th:field="*{nip}" id="nip" placeholder="">
+        <span th:if="${#fields.hasErrors('nip')}">*Numer musi posiadać 9 cyfr!</span>
+        <br th:if="!${#fields.hasErrors('nip')}">
+
+        <label for="firmaNrTel">Numer telefonu</label>
+        <input type="number" th:field="*{nrTel}" id="firmaNrTel" placeholder="">
+        <span th:if="${#fields.hasErrors('nrTel')}">*Numer musi posiadać 9 cyfr!</span>
+        <br th:if="!${#fields.hasErrors('nrTel')}">
+
+        <label for="firmaEmail">Adres e-mail</label>
+        <input type="text" th:field="*{email}" id="firmaEmail" placeholder="">
+        <span th:if="${#fields.hasErrors('email')}">*Pole nie może być puste!</span>
+        <br th:if="!${#fields.hasErrors('email')}">
+
+        <label></label>
+        <input type="submit" value="Zapisz" class="button-green">
+        <a th:href="@{/clients}" class="button-gray">Anuluj</a>
+    </form>
+    <script type="text/javascript">
+        function showDiv() {
+            if (document.getElementById('type').value === "Osoba prywatna") {
+                document.getElementById('osobaForm').style.display = "grid";
+                document.getElementById('firmaForm').style.display = "none";
+            } else {
+                document.getElementById('osobaForm').style.display = "none";
+                document.getElementById('firmaForm').style.display = "grid";
+            }
+        }
+        window.addEventListener('load', function(){
+            document.getElementById('type').addEventListener('change', showDiv);
+            showDiv();
+        });
+    </script>
+
+</main>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+<link rel="stylesheet" href="../../static/css/stylesheet.css">
+<head>
+  <title>Mar-Trans</title>
+</head>
+<header>
+  <h1>Mar-Trans</h1>
+  <!--    <img src="images/logo.png" alt="ABC logo">-->
+</header>
+<nav>
+  <ul>
+    <li><a th:href="@{/index}" >Strona główna</a></li>
+    <li><a th:href="@{/vehicles}" >Auta</a></li>
+    <li><a th:href="@{/clients}">Klienci</a></li>
+    <li><a th:href="@{/trips}" class="active">Wyjazdy</a></li>
+  </ul>
+</nav>
+<body>
+<main>
+  <h2>Formularz nowego wyjazdu</h2>
+  <form th:action="@{/addTrip}" th:object="${trip}" class="form" method="POST">
+    <label for="client">Klient zlecający trip</label>
+    <select th:field="*{client}" id="client">
+      <option th:each="state : ${clients}"
+              th:value="${state.id}"
+              th:text="${state}">
+      </option>
+    </select>
+    <br>
+
+
+    <label for="start">Miejsce odjazdu:</label>
+    <input type="text" th:field="*{start}" id="start" placeholder="">
+    <span th:if="${#fields.hasErrors('start')}">*Pole nie może być puste!</span>
+    <br th:if="!${#fields.hasErrors('start')}">
+
+    <label for="deparatureDate">Data i godzina odjazdu</label>
+    <input type="datetime-local" th:field="*{deparatureDate}" id="deparatureDate" placeholder="">
+    <span th:if="${#fields.hasErrors('deparatureDate')}">*Pole nie może być puste!</span>
+    <br th:if="!${#fields.hasErrors('deparatureDate')}">
+
+    <label for="destination">Cel wyjazdu</label>
+    <input type="text" th:field="*{destination}" id="destination" placeholder="">
+    <span th:if="${#fields.hasErrors('destination')}">*Pole nie może być puste!</span>
+    <br th:if="!${#fields.hasErrors('destination')}">
+
+    <label for="arrivalDate">Data i czas powrotu</label>
+    <input type="datetime-local" th:field="*{arrivalDate}" id="arrivalDate" placeholder="">
+    <span th:if="${#fields.hasErrors('arrivalDate')}">*Pole nie może być puste!</span>
+    <br th:if="!${#fields.hasErrors('arrivalDate')}">
+
+
+    <label for="numberOfPeople">Ilość osób</label>
+    <input type="number" th:field="*{numberOfPeople}" id="numberOfPeople" placeholder="">
+    <span th:if="${#fields.hasErrors('numberOfPeople')}">*Podaj liczbe od 1 do 99!</span>
+    <br th:if="!${#fields.hasErrors('numberOfPeople')}">
+
+<!--    <label for="vehicleList">Pojazdy </label>-->
+<!--    <select th:field="*{vehicleList}" id="vehicleList" multiple>-->
+<!--      <option th:each="state : ${pojazdy}"-->
+<!--              th:value="${state.id}"-->
+<!--              th:text="${state}">-->
+<!--      </option>-->
+<!--    </select>-->
+<!--    <br>-->
+    
+    <label></label>
+    <input type="submit" value="Zapisz" class="button-green">
+    <a th:href="@{/trips}" class="button-gray">Anuluj</a>
+  </form>
+</main>
+</body>
+</html>

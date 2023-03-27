@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+<link rel="stylesheet" href="../static/css/stylesheet.css">
+<head>
+    <title>Mar-Trans</title>
+</head>
+<header>
+    <h1>Mar-Trans</h1>
+    <!--    <img src="images/logo.png" alt="ABC logo">-->
+</header>
+<nav>
+    <ul>
+        <li><a th:href="index">Strona główna</a></li>
+        <li><a th:href="vehicles">Auta</a></li>
+        <li><a th:href="clients">Klienci</a></li>
+        <li><a th:href="trips" th:class="active">Wyjazdy</a></li>
+    </ul>
+</nav>
+<body>
+<main>
+    <h2>Wyjazdy</h2>
+    <div>
+        <h2>
+            <a th:href="@{/trips/assign}" class="button-green">Przypisz automatycznie pojazdy</a>
+            <a th:href="@{/trips/add}" class="button-green">Dodaj wyjazd</a>
+        </h2>
+        <label for="checkbox"></label>
+        <input type="checkbox" id="checkbox" onclick="myFunction()">
+        <label for="myInput">Wyświetl tylko kursy ze statusem:</label>
+        <select th:field="*{types}" id="myInput" onchange="myFunction()">
+            <option th:each="state : ${T(com.example.webapp.enums.TripState).values()}"
+                    th:value="${state}"
+                    th:text="${state}">
+            </option>
+        </select>
+        <h2></h2>
+        <table id="myTable" class="table-list">
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>Start</th>
+                <th>Cel</th>
+                <th>Data wyjazdu</th>
+                <th>Data przyjazdu</th>
+                <th>Ilość osób</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="trip : ${trips}">
+                <td th:text="${trip.tripState}"></td>
+                <td th:text="${trip.start}"></td>
+                <td th:text="${trip.destination}"></td>
+                <td th:text="${#temporals.format(trip.deparatureDate, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${#temporals.format(trip.arrivalDate, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${trip.numberOfPeople}"></td>
+                <td>
+                    <a th:href="@{/trips/details/{id}(id=${trip.id})}" class="button-gray-list">Szczegóły</a>
+                    <a th:href="@{/trips/delete/{id}(id=${trip.id})}" class="button-gray-list">Usuń</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <script>
+            function myFunction() {
+                // Declare variables
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value;
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+
+                // Loop through all table rows, and hide those who don't match the search query
+                if (document.getElementById('checkbox').checked) {
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[0];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                } else {
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[0];
+                        tr[i].style.display = "";
+                    }
+                }
+            }
+        </script>
+    </div>
+</main>
+</body>
+</html>

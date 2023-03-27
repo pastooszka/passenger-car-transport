@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+<link rel="stylesheet" href="../../static/css/stylesheet.css">
+<head>
+  <title>Mar-Trans</title>
+</head>
+<header>
+  <h1>Mar-Trans</h1>
+  <!--    <img src="images/logo.png" alt="ABC logo">-->
+</header>
+<nav>
+  <ul>
+    <li><a th:href="@{/index}">Strona główna</a></li>
+    <li><a th:href="@{/vehicles}">Auta</a></li>
+    <li><a th:href="@{/clients}" class="active">Klienci</a></li>
+    <li><a th:href="@{/trips}">Wyjazdy</a></li>
+  </ul>
+</nav>
+<body>
+<main>
+  <h2>Dane firmy</h2>
+  <form class="edit" method="POST">
+    <label for="nazwa">Nazwa firmy:</label>
+    <input type="text" th:field="*{company.name}" id="nazwa" th:placeholder="*{company.name}" disabled>
+    <br>
+
+    <label for="nip">NIP:</label>
+    <input type="text" th:field="*{company.nip}" id="nip" th:placeholder="*{company.nip}" disabled>
+    <br>
+
+    <label for="nrTel">Numer telefonu:</label>
+    <input type="text" th:field="*{company.nrTel}" id="nrTel" th:placeholder="*{company.nrTel}" disabled>
+    <br>
+
+    <label for="email">Adres E-Mail:</label>
+    <input type="text" th:field="*{company.email}" id="email" th:placeholder="*{company.email}" disabled>
+    <br>
+
+    <label></label>
+    <a th:href="@{/clients/editform/{id}(id=${company.id})}" class="button-green">Edytuj</a>
+  </form>
+  <h2>Wyjazdy</h2>
+  <table class="table-list">
+    <thead>
+    <tr>
+      <th>Start</th>
+      <th>Cel</th>
+      <th>Data wyjazdu</th>
+      <th>Data przyjazdu</th>
+      <th>Ilość osób</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="trip : ${trips}">
+      <td th:text="${trip.start}"></td>
+      <td th:text="${trip.destination}"></td>
+      <td th:text="${#temporals.format(trip.deparatureDate, 'dd-MM-yyyy HH:mm')}"></td>
+      <td th:text="${#temporals.format(trip.arrivalDate, 'dd-MM-yyyy HH:mm')}"></td>
+      <td th:text="${trip.getNumberOfPeople}"></td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

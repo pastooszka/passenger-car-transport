@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+<link rel="stylesheet" href="../../static/css/stylesheet.css">
+<head>
+    <title>Mar-Trans</title>
+</head>
+<header>
+    <h1>Mar-Trans</h1>
+    <!--    <img src="images/logo.png" alt="ABC logo">-->
+</header>
+<nav>
+    <ul>
+        <li><a th:href="@{/index}" >Strona główna</a></li>
+        <li><a th:href="@{/vehicles}" >Auta</a></li>
+        <li><a th:href="@{/clients}">Klienci</a></li>
+        <li><a th:href="@{/trips}" class="active">Wyjazdy</a></li>
+    </ul>
+</nav>
+<body>
+<main>
+    <h2>Szczegóły wyjazdu</h2>
+    <form th:action="@{/assignManually/{id}(id=${trip.id})}" class="edit" method="POST">
+        <label for="client">Klient zlecający trip:</label>
+        <input type="text" th:value="*{trip.client}"  id="client"  disabled>
+        <br>
+
+        <label for="start">Start:</label>
+        <input type="text" th:field="*{trip.start}" id="start"  disabled>
+        <br>
+
+        <label for="destination">Cel:</label>
+        <input type="text" th:field="*{trip.destination}" id="destination" disabled>
+        <br>
+
+        <label for="deparatureDate">Data wyjazdu:</label>
+        <input type="text" th:value="*{#temporals.format(trip.deparatureDate, 'dd-MM-yyyy HH:mm')}" id="deparatureDate" disabled>
+        <br>
+
+        <label for="arrivalDate">Data przyjazdu:</label>
+        <input type="text" th:value="*{#temporals.format(trip.arrivalDate, 'dd-MM-yyyy HH:mm')}" id="arrivalDate"  disabled>
+        <br>
+
+        <label for="numberOfPeople">Ilość osób:</label>
+        <input type="text" th:field="*{trip.numberOfPeople}" id="numberOfPeople"  disabled>
+        <br>
+
+        <label></label>
+        <a onclick="showDiv()" class="button-green">Przypisz pojazdy</a>
+        <a th:href="@{/trips/editform/{id}(id=${trip.id})}" class="button-gray">Edytuj dane</a>
+
+
+
+    </form>
+    <h2></h2>
+    <form  th:action="@{/assignManually/{id}(id=${trip.id})}" th:object="${trip}" class="form" style="display: none" id="pojazdForm" method="POST">
+        <label for="vehicleList">Dostępne pojazdy w danym okresie czasowym: </label>
+        <select th:field="*{proposedVehicles}"  id="vehicleList" multiple>
+            <option th:each="state : ${availableVehicles}"
+                    th:value="${state.id}"
+                    th:text="${state}">
+            </option>
+        </select>
+        <span th:if="${error}">*Wybrane pojazdy mają zbyt mało miejsc!</span>
+        <br th:if="!${error}">
+        <label></label>
+        <input type="submit" value="Zapisz" class="button-green">
+        <label>*Proponowane pojazdy zaznaczone są kolorem szarym</label>
+    </form>
+    <h2>Pojazdy obsługujące trip</h2>
+    <table class="table-list">
+        <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Numer rejestracyjny</th>
+            <th>ilosc miejsc</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="vehicle : ${vehicles}">
+            <td th:text="${vehicle.brand}"></td>
+            <td th:text="${vehicle.model}"></td>
+            <td th:text="${vehicle.regNumber}"></td>
+            <td th:text="${vehicle.numberOfSeats}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="hidden" id="error" th:value="${error}"/>
+</main>
+</body>
+<script type="text/javascript">
+    function showDiv() {
+        document.getElementById('pojazdForm').style.display = "grid";
+    }
+    window.addEventListener('load', function(){
+        if (document.getElementById('error').value==="true") {
+            document.getElementById('pojazdForm').style.display = "grid";
+        }
+    });
+</script>
+</html>

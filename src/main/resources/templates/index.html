@@ -1,0 +1,29 @@
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+    <link rel="stylesheet" href="../static/css/stylesheet.css">
+    <head>
+        <title>Mar-Trans</title>
+    </head>
+    <header>
+        <h1><a th:href="index" th:class="h1">Mar-Trans</a></h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a th:href="index" class="active">Strona główna</a></li>
+            <li><a th:href="vehicles">Auta</a></li>
+            <li><a th:href="clients">Klienci</a></li>
+            <li><a th:href="trips">Wyjazdy</a></li>
+        </ul>
+    </nav>
+    <body>
+    <main>
+        <h2>Witaj w panelu zarządzania twoją firmą</h2>
+        <br>
+        <h3 th:text="'Ilość nieprzypisanych wyjazdów: ' + ${wyjazdy}"></h3>
+        <h3>
+        <a th:href="@{/trips/assign}" class="button-green">Zobacz nieprzypisane wyjazdy</a>
+        </h3>
+    </main>
+    </body>
+    </html>

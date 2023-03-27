@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+<link rel="stylesheet" href="../static/css/stylesheet.css">
+<head>
+  <title>Mar-Trans</title>
+</head>
+<header>
+  <h1><a th:href="index" th:class="h1">Mar-Trans</a></h1>
+  <!--    <img src="images/logo.png" alt="ABC logo">-->
+</header>
+<nav>
+  <ul>
+    <li><a th:href="index" >Strona główna</a></li>
+    <li><a th:href="vehicles">Auta</a></li>
+    <li><a th:href="clients" th:class="active">Klienci</a></li>
+    <li><a th:href="trips">Wyjazdy</a></li>
+  </ul>
+</nav>
+<body>
+<main>
+  <h2><a th:href="@{/clients/add}" class="button-green">Dodaj klienta</a></h2>
+  <div class="row">
+    <div class="column">
+  <h2>Klienci firmowi:</h2>
+
+
+  <table class="table-list">
+    <thead>
+    <tr>
+      <th>Nazwa firmy</th>
+      <th>NIP</th>
+      <th>Numer tel.</th>
+      <th>Adres e-mail</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="client : ${companies}">
+      <td th:text="${client.name}"></td>
+      <td th:text="${client.nip}"></td>
+      <td th:text="${client.nrTel}"></td>
+      <td th:text="${client.email}"></td>
+      <td>
+        <a th:href="@{/clients/companydetails/{id}(id=${client.id})}" class="button-gray-list">Szczegóły</a>
+        <a th:href="@{/clients/delete/{id}(id=${client.id})}" class="button-gray-list">Usuń</a></td>
+    </tr>
+    </tbody>
+  </table>
+    </div>
+    <div class="column">
+  <h2>Klienci prywatni:</h2>
+  <table class="table-list">
+    <thead>
+    <tr>
+      <th>Imię</th>
+      <th>Nazwisko</th>
+      <th>Numer tel.</th>
+      <th>Adres e-mail</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="client : ${persons}">
+      <td th:text="${client.name}"></td>
+      <td th:text="${client.surname}"></td>
+      <td th:text="${client.nrTel}"></td>
+      <td th:text="${client.email}"></td>
+      <td>
+        <a th:href="@{/clients/persondetails/{id}(id=${client.id})}" class="button-gray-list">Szczegóły</a>
+        <a th:href="@{/clients/delete/{id}(id=${client.id})}" class="button-gray-list">Usuń</a></td>
+    </tr>
+    </tbody>
+  </table>
+    </div>
+  </div>
+</main>
+</body>
+</html>

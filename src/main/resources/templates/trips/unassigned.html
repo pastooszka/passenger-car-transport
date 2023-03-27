@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stylesheet.css}">
+<link rel="stylesheet" href="../static/css/styles.css">
+<head>
+    <title>Mar-Trans</title>
+</head>
+<header>
+    <h1>Mar-Trans</h1>
+    <!--    <img src="images/logo.png" alt="ABC logo">-->
+</header>
+<nav>
+    <ul>
+        <li><a th:href="@{/index}" >Strona główna</a></li>
+        <li><a th:href="@{/vehicles}" >Auta</a></li>
+        <li><a th:href="@{/clients}">Klienci</a></li>
+        <li><a th:href="@{/trips}" class="active">Wyjazdy</a></li>
+    </ul>
+</nav>
+<body>
+<main>
+    <h2>Wyjazdy wymagające przypisania pojazdów</h2>
+    <table class="table-list" th:unless="${#lists.isEmpty(trips)}">
+        <thead>
+        <tr>
+            <th>Klient</th>
+            <th>Start</th>
+            <th>Cel</th>
+            <th>Data wyjazdu</th>
+            <th>Data przyjazdu</th>
+            <th>Ilość osób</th>
+            <th>Proponowane pojazdy</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="trip : ${trips}">
+            <td th:text="${trip.client}"></td>
+            <td th:text="${trip.start}"></td>
+            <td th:text="${trip.destination}"></td>
+            <td th:text="${#temporals.format(trip.deparatureDate, 'dd-MM-yyyy HH:mm')}"></td>
+            <td th:text="${#temporals.format(trip.arrivalDate, 'dd-MM-yyyy HH:mm')}"></td>
+            <td th:text="${trip.numberOfPeople}"></td>
+            <td>
+                <table th:unless="${#lists.isEmpty(trip.proposedVehicles)}">
+                    <tbody>
+                        <tr  th:each="vehicle : ${trip.proposedVehicles}">
+                            <td th:text="${vehicle.numberOfSeats} + ' ' + ${vehicle.brand} + ' ' + ${vehicle.model} + ' ' + ${vehicle.regNumber}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <span th:if="${#lists.isEmpty(trip.proposedVehicles)}"> Brak pojazdów mogących obsłużyć ten trip</span>
+            </td>
+            <td>
+                <a th:unless="${#lists.isEmpty(trip.proposedVehicles)}" th:href="@{/trips/assign/{id}(id=${trip.id})}" class="button-gray-list">Zatwierdź</a>
+                <a th:href="@{/trips/assign/delete/{id}(id=${trip.id})}" class="button-gray-list">Usuń</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <label th:if="${#lists.isEmpty(trips)}">Brak nieprzypisanych wyjazdów!</label>
+</main>
+</body>
+</html>
